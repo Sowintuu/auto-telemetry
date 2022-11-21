@@ -1,0 +1,11 @@
+Lx:	Location x		CarCgLocation.X
+Ly:	Location y		CarCgLocation.X
+Lz:	Location z		CarCgLocation.X
+S:	Car Speed		Utilities.MpsToKph(_data.CarSpeed)
+Ax:	Acceleration X	LocalAcceleration.X
+Ay:	Acceleration Y	LocalAcceleration.Y
+Az:	Acceleration Z	LocalAcceleration.Z
+R:	RPM				Utilities.RpsToRpm(_data.EngineRps)
+G:	Gear			Gear
+T:	Throttle		
+B:	Brake

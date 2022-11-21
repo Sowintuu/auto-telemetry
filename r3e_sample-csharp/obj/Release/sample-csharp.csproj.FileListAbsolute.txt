@@ -1,0 +1,7 @@
+C:\gitserver\auto-telemetry\r3e_sample-csharp\bin\Release\sample-csharp.exe.config
+C:\gitserver\auto-telemetry\r3e_sample-csharp\bin\Release\sample-csharp.exe
+C:\gitserver\auto-telemetry\r3e_sample-csharp\bin\Release\sample-csharp.pdb
+C:\gitserver\auto-telemetry\r3e_sample-csharp\obj\Release\sample-csharp.csprojAssemblyReference.cache
+C:\gitserver\auto-telemetry\r3e_sample-csharp\obj\Release\sample-csharp.csproj.CoreCompileInputs.cache
+C:\gitserver\auto-telemetry\r3e_sample-csharp\obj\Release\sample-csharp.exe
+C:\gitserver\auto-telemetry\r3e_sample-csharp\obj\Release\sample-csharp.pdb
