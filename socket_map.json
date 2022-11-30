@@ -1,0 +1,69 @@
+{
+  "channels": {
+    "Ti": [
+      "Time",
+      "_data.Player.GameSimulationTime",
+      "float"
+    ],
+    "Lx": [
+      "Location x",
+      "CarCgLocation.X",
+      "float"
+    ],
+    "Ly": [
+      "Location y",
+      "CarCgLocation.X",
+      "float"
+    ],
+    "Lz": [
+      "Location z",
+      "CarCgLocation.X",
+      "float"
+    ],
+    "S": [
+      "Car Speed",
+      "Utilities.MpsToKph(_data.CarSpeed)",
+      "float"
+    ],
+    "Ax": [
+      "Acceleration X",
+      "LocalAcceleration.X",
+      "float"
+    ],
+    "Ay": [
+      "Acceleration Y",
+      "LocalAcceleration.Y",
+      "float"
+    ],
+    "Az": [
+      "Acceleration Z",
+      "LocalAcceleration.Z",
+      "float"
+    ],
+    "R": [
+      "RPM",
+      "Utilities.RpsToRpm(_data.EngineRps)",
+      "float"
+    ],
+    "G": [
+      "Gear",
+      "Gear",
+      "int"
+    ],
+    "T": [
+      "Throttle",
+      "Throttle",
+      "float"
+    ],
+    "B": [
+      "Brake",
+      "",
+      "float"
+    ],
+    "St": [
+      "Steering",
+      "SteerInputRaw",
+      "float"
+    ]
+  }
+}
