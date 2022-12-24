@@ -36,6 +36,7 @@ class R3eReceive(object):
         # Set datafile.
         self.data_file = fr'logs\{datetime.now().strftime("%y%m%d_%H%M%S_r3e.dat")}'
         with open(self.data_file, 'w') as data_file_handle:
+
             data_file_handle.write('PosX,PosY,PosZ,Speed,AccX,AccY,AccZ,\n')
 
     # Setup udp server to receive data from r3e.

@@ -59,7 +59,7 @@ class AutoTelemetry(object):
             self.config = json.load(json_file)
 
     def connect_sql(self):
-        # TODO: Catch more explicitly.
+        # TODO: Catch exceptions more explicitly.
         # Except possible errors
         try:
             # Connect to db.
@@ -70,18 +70,18 @@ class AutoTelemetry(object):
             self.db_table_name = datetime.now().strftime("tele_%y%m%d_%H%M%S")
 
             # Create new table with channels from config.
-            db_string = f'CREATE TABLE {self.db_table_name}(id int NOT NULL AUTO_INCREMENT, date DATE, time TIME, '
+            db_string = f'CREATE TABLE {self.db_table_name}(id int NOT NULL AUTO_INCREMENT, session_time TIME, '
             for val in self.config['cannels']:
                 # Ignore time channel.
                 if val == 'Ti':
                     continue
                 db_string += f'{val} {self.config["channels"][2].upper()},'
 
-            # TODO: Check what PRIMARY is.
             db_string += ' PRIMARY KEY(id));'
 
             self.db_curs.execute(db_string)
             self.db.commit()
+
         except:
             if self.db is None:
                 logging.warning('Error. No db created.')
@@ -118,7 +118,7 @@ class AutoTelemetry(object):
         self.values = self.datasource_obj.get_values()
 
     def log_and_send(self):
-        # TODO: Check rollback command. Until when will be rolled back?
+        # TODO: Check rollback command. Until when and what will be rolled back?
         # TODO: Check sql format for time and date.
         # Log locally.
         # Set string for logging.
@@ -134,7 +134,7 @@ class AutoTelemetry(object):
 
         # Log to DB.
         # Set up db write string.
-        db_string = f'INSERT INTO {self.db_table_name} (date, time, '
+        db_string = f'INSERT INTO {self.db_table_name} (time, '
 
         #
 
