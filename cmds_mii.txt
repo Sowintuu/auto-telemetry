@@ -1,0 +1,43 @@
+BAROMETRIC_PRESSURE ¦ Barometric Pressure
+DTC_OBD_COMPLIANCE ¦ DTC OBD Standards Compliance
+DTC_PIDS_C ¦ DTC Supported PIDs [41-60]
+DTC_HYBRID_BATTERY_REMAINING ¦ DTC Hybrid battery pack remaining life
+DTC_FUEL_TYPE ¦ DTC Fuel Type
+DTC_MAX_VALUES ¦ DTC Various Max values
+ACCELERATOR_POS_E ¦ Accelerator pedal position E
+FUEL_TYPE ¦ Fuel Type
+OBD_COMPLIANCE ¦ OBD Standards Compliance
+CLEAR_DTC ¦ Clear DTCs and Freeze data
+DISTANCE_SINCE_DTC_CLEAR ¦ Distance traveled since codes cleared
+DTC_AMBIANT_AIR_TEMP ¦ DTC Ambient air temperature
+DTC_STATUS_DRIVE_CYCLE ¦ DTC Monitor status this drive cycle
+HYBRID_BATTERY_REMAINING ¦ Hybrid battery pack remaining life
+PIDS_B ¦ Supported PIDs [21-40]
+DTC_DISTANCE_SINCE_DTC_CLEAR ¦ DTC Distance traveled since codes cleared
+MIDS_A ¦ Supported MIDs [01-20]
+DTC_ACCELERATOR_POS_E ¦ DTC Accelerator pedal position E
+DISTANCE_W_MIL ¦ Distance Traveled with MIL on
+CONTROL_MODULE_VOLTAGE ¦ Control module voltage
+DTC_SPEED ¦ DTC Vehicle Speed
+STATUS ¦ Status since DTCs cleared
+DTC_BAROMETRIC_PRESSURE ¦ DTC Barometric Pressure
+DTC_ACCELERATOR_POS_D ¦ DTC Accelerator pedal position D
+STATUS_DRIVE_CYCLE ¦ Monitor status this drive cycle
+DTC_DISTANCE_W_MIL ¦ DTC Distance Traveled with MIL on
+GET_CURRENT_DTC ¦ Get DTCs from the current/last driving cycle
+AMBIANT_AIR_TEMP ¦ Ambient air temperature
+GET_DTC ¦ Get DTCs
+SPEED ¦ Vehicle Speed
+DTC_CONTROL_MODULE_VOLTAGE ¦ DTC Control module voltage
+ACCELERATOR_POS_D ¦ Accelerator pedal position D
+ELM_VERSION ¦ ELM327 version string
+ELM_VOLTAGE ¦ Voltage detected by OBD-II adapter
+DTC_WARMUPS_SINCE_DTC_CLEAR ¦ DTC Number of warm-ups since codes cleared
+WARMUPS_SINCE_DTC_CLEAR ¦ Number of warm-ups since codes cleared
+MAX_MAF ¦ Maximum value for mass air flow sensor
+DTC_STATUS ¦ DTC Status since DTCs cleared
+DTC_MAX_MAF ¦ DTC Maximum value for mass air flow sensor
+PIDS_A ¦ Supported PIDs [01-20]
+MAX_VALUES ¦ Various Max values
+DTC_PIDS_B ¦ DTC Supported PIDs [21-40]
+PIDS_C ¦ Supported PIDs [41-60]

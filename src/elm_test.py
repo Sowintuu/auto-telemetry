@@ -1,7 +1,7 @@
 import obd
 
 # Connect to ELM
-obd.logger.setLevel(obd.logging.DEBUG)
+# obd.logger.setLevel(obd.logging.DEBUG)
 connection = obd.OBD()
 
 # Check status.
@@ -21,3 +21,8 @@ else:
 # Print supported commands.
 if elm_connected:
     print(connection.supported_commands)
+
+    for cmd in connection.supported_commands:
+        print(f'{cmd.name} ¦ {cmd.desc}')
+
+breakpoint()
