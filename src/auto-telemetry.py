@@ -105,7 +105,7 @@ class AutoTelemetry(object):
         else:
             self.datasource_type = 0
             self.datasource_obj = None
-            logging.info(f'Datasource "{source}" unkown.')
+            logging.info(f'Datasource "{source}" unknown.')
 
     # Get values from any type of datasource.
     def get_values(self):
@@ -136,23 +136,21 @@ class AutoTelemetry(object):
         # Set up db write string.
         db_string = f'INSERT INTO {self.db_table_name} (time, '
 
+        # Example for DB connection.
+        # sensor = Adafruit_DHT.DHT22
+        # pin = 4
+        # self.db = MySQLdb.connect("localhost", "root", "passwort", "haus")
+        # self.db_curs = self.db.cursor()
         #
-
-
-        sensor = Adafruit_DHT.DHT22
-        pin = 4
-        self.db = MySQLdb.connect("localhost", "root", "passwort", "haus")
-        self.db_curs = self.db.cursor()
-
-        try:
-            humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
-            curs.execute(
-                "INSERT INTO temperatur_tb (datum, uhrzeit, wert) VALUES (CURRENT_DATE(), NOW(), %.2f);" % temperature)
-            db.commit()
-            print("Done")
-        except:
-            print("Error. Rolling back.")
-            db.rollback()
+        # try:
+        #     humidity, temperature = Adafruit_DHT.read_retry(sensor, pin)
+        #     curs.execute(
+        #         "INSERT INTO temperatur_tb (datum, uhrzeit, wert) VALUES (CURRENT_DATE(), NOW(), %.2f);" % temperature)
+        #     db.commit()
+        #     print("Done")
+        # except:
+        #     print("Error. Rolling back.")
+        #     db.rollback()
 
 
 if __name__ == '__main__':
