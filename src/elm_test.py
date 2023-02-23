@@ -1,7 +1,8 @@
 import obd
+import time
 
 # Connect to ELM
-# obd.logger.setLevel(obd.logging.DEBUG)
+obd.logger.setLevel(obd.logging.DEBUG)
 connection = obd.OBD()
 
 # Check status.
@@ -18,11 +19,36 @@ elif elm_status == obd.OBDStatus.ELM_CONNECTED:
 else:
     print('Connection failed.')
 
-# Print supported commands.
 if elm_connected:
-    print(connection.supported_commands)
-
+    # Print supported commands.
     for cmd in connection.supported_commands:
         print(f'{cmd.name} ¦ {cmd.desc}')
 
-breakpoint()
+    print('n')
+
+    # Setup commands.
+    COMMANDS = {obd.commands.ACCELERATOR_POS_E: 'ACCELERATOR_POS_E',
+                obd.commands.ACCELERATOR_POS_D: 'ACCELERATOR_POS_D',
+                obd.commands.SPEED: 'SPEED',
+                obd.commands.AMBIANT_AIR_TEMP: 'TEMP'
+                }
+
+    # Print values.
+    while True:
+        # Setup print string.
+        print_str = ''
+
+        # Get each response and print.
+        for cmd in COMMANDS:
+            response = connection.query(cmd)
+            print_str += f'{COMMANDS[cmd]}: {response.value.magnitude} | '
+
+        # Print string.
+        print_str_len = len(print_str)
+        print(print_str, end='')
+
+        # Wait for next query.
+        time.sleep(0.1)
+        
+        # Delete last printed string.
+        print('\b' * (print_str_len + 1), end='')
