@@ -2,7 +2,7 @@ import obd
 import time
 
 # Connect to ELM
-obd.logger.setLevel(obd.logging.DEBUG)
+# obd.logger.setLevel(obd.logging.DEBUG)
 connection = obd.OBD()
 
 # Check status.
@@ -34,6 +34,8 @@ if elm_connected:
                 }
 
     # Print values.
+    # Init print str len to 0 for first run.
+    print_str_len = 0
     while True:
         # Setup print string.
         print_str = ''
@@ -43,12 +45,12 @@ if elm_connected:
             response = connection.query(cmd)
             print_str += f'{COMMANDS[cmd]}: {response.value.magnitude} | '
 
+        # Delete last printed string.
+        print('\b' * (print_str_len + 1), end='')
+
         # Print string.
         print_str_len = len(print_str)
         print(print_str, end='')
 
         # Wait for next query.
         time.sleep(0.1)
-        
-        # Delete last printed string.
-        print('\b' * (print_str_len + 1), end='')
