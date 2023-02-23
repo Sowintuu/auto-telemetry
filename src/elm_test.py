@@ -1,6 +1,7 @@
 import obd
 
 # Connect to ELM
+obd.logger.setLevel(obd.logging.DEBUG)
 connection = obd.OBD()
 
 # Check status.
