@@ -4,6 +4,7 @@ import json
 import MySQLdb
 from datetime import datetime
 
+from datasourceObd import DatasourceObd
 from r3e_receive import R3eReceive
 
 
@@ -14,10 +15,11 @@ class AutoTelemetry(object):
         # Values.
         self.values = {}
 
-        # Datasource.
-        self.datasource_type = 0
-        self.datasource_obj = None
-        self.config = {}
+        # Channel config.
+        self.channels = {}
+
+        # Datasources.
+        self.datasources = {}
 
         # Database.
         self.db = None
@@ -55,10 +57,38 @@ class AutoTelemetry(object):
         self.logfile_path = os.path.join(self.logfile_dir, datetime.now().strftime("%y%m%d_%H%M%S_tele.dat"))
 
     def read_channel_config(self):
-        with open(r'..\socket_map.json') as json_file:
-            self.config = json.load(json_file)
+        with open(r'..\channels.json') as json_file:
+            json_load = json.load(json_file)
+            self.channels = json_load(json_load)
+
+    # Add datasource and init receive object.
+    def add_datasource(self, source_add):
+        # Check if the source is already added.
+        if 'obd' not in self.datasources:
+            # Create the source object and add it.
+            if source_add == 'obd':
+                self.datasources['obd'] = DatasourceObd()
+            elif source_add == 'gpio':
+                self.datasources['gpio'] = DatasourceGpio()
+            elif source_add == 'r_box':
+                self.datasources['r_box'] = DatasourceRbox()
+            elif source_add == 'r3e':
+                self.datasources['r3e'] = R3eReceive()
+                self.datasources['r3e'].connect_udp()
+            else:
+                # Show warning if datasource not known.
+                logging.warning(f'Datasource {source_add} unknown.')
+
+            # Log for successful addition.
+            logging.info(f'Datasource {source_add} added.')
+            
+        else:
+            # Show warning, if already added.
+            logging.warning(f'Datasource {source_add} already added.')
+
 
     def connect_sql(self):
+        # TODO: Adjust to new channel structure.
         # TODO: Catch exceptions more explicitly.
         # Except possible errors
         try:
@@ -71,7 +101,7 @@ class AutoTelemetry(object):
 
             # Create new table with channels from config.
             db_string = f'CREATE TABLE {self.db_table_name}(id int NOT NULL AUTO_INCREMENT, session_time TIME, '
-            for val in self.config['cannels']:
+            for val in self.channels:
                 # Ignore time channel.
                 if val == 'Ti':
                     continue
@@ -89,23 +119,7 @@ class AutoTelemetry(object):
                 logging.warning("Error. Rolling back.")
                 self.db.rollback()
 
-    # Set datasource and init receive object.
-    def set_datasource(self, source):
-        if source == 'car' or source == 1:
-            self.datasource_type = 1
-            self.datasource_obj = None
-            logging.info(f'Datasource "car" not implemented yet.')
 
-        elif source == 'r3e' or source == 'R3E' or source == 2:
-            self.datasource_type = 2
-            self.datasource_obj = R3eReceive()
-            self.datasource_obj.connect_udp()
-            logging.info(f'Datasource "R3E" not implemented yet.')
-
-        else:
-            self.datasource_type = 0
-            self.datasource_obj = None
-            logging.info(f'Datasource "{source}" unknown.')
 
     # Get values from any type of datasource.
     def get_values(self):
@@ -116,6 +130,7 @@ class AutoTelemetry(object):
 
         # Get values from whatever datasource is set.
         self.values = self.datasource_obj.get_values()
+
 
     def log_and_send(self):
         # TODO: Check rollback command. Until when and what will be rolled back?
@@ -156,3 +171,5 @@ class AutoTelemetry(object):
 if __name__ == '__main__':
     tele = AutoTelemetry()
     tele.read_channel_config()
+
+    breakpoint()

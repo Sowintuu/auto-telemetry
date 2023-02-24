@@ -27,6 +27,7 @@ class R3eReceive(object):
         self.values = {}
         self.last_rec_address = ''
         self.logfile = ''
+        self.channels = {}
 
         # Init logging.
         logging.basicConfig(format='%(asctime)s %(message)s',
