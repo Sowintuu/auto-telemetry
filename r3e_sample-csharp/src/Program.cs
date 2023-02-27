@@ -190,7 +190,7 @@ namespace R3E
                 sendString += $"T:{_data.Throttle};";
 
                 //Brake.
-                sendString += $"B:{_data.Throttle};";
+                //sendString += $"B:{_data.Throttle};";
 
                 // Steering.
                 sendString += $"St:{_data.SteerInputRaw};";

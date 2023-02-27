@@ -12,12 +12,12 @@
     ],
     "Ly": [
       "Location y",
-      "CarCgLocation.X",
+      "CarCgLocation.Y",
       "float"
     ],
     "Lz": [
       "Location z",
-      "CarCgLocation.X",
+      "CarCgLocation.Z",
       "float"
     ],
     "S": [

@@ -28,6 +28,7 @@ class R3eReceive(object):
         self.last_rec_address = ''
         self.logfile = ''
         self.channels = {}
+        self.channels_short = {}
 
         # Init logging.
         logging.basicConfig(format='%(asctime)s %(message)s',
@@ -37,8 +38,18 @@ class R3eReceive(object):
         # Set datafile.
         self.data_file = fr'logs\{datetime.now().strftime("%y%m%d_%H%M%S_r3e.dat")}'
         with open(self.data_file, 'w') as data_file_handle:
-
             data_file_handle.write('PosX,PosY,PosZ,Speed,AccX,AccY,AccZ,\n')
+
+    # Set the channels attribute.
+    # Also set up a dict "channels_short" as a map to quickly find channel names from short names.
+    def set_channels(self, channels_in):
+        # Set the channels attribute.
+        self.channels = channels_in
+
+        # Collect the short names.
+        self.channels_short = {}
+        for ch in self.channels:
+            self.channels_short[self.channels[ch]['short_name']] = ch
 
     # Setup udp server to receive data from r3e.
     def connect_udp(self, ip=LOCAL_IP, port=DEFAULT_PORT, buffer_size=BUFFER_SIZE):
@@ -51,6 +62,9 @@ class R3eReceive(object):
 
         self.buffer_size = buffer_size
 
+    # Write data directly to a file.
+    # Should not be used any more. Use auto-telemetry.
+    # TODO: Change to full names.
     def write_to_datafile(self):
         # Setup write string.
         write_str = ''
@@ -63,6 +77,9 @@ class R3eReceive(object):
         with open(self.data_file, 'a') as data_file_handle:
             data_file_handle.write(write_str)
 
+    # Get current values.
+    # Reads from udp input.
+    # Converts the input and writes it to "values" for use in auto-telemetry.
     def get_values(self):
         bytes_address_pair = self.udp_server.recvfrom(self.buffer_size)
 
@@ -80,8 +97,9 @@ class R3eReceive(object):
             # Split at : in name and value.
             val_split = val.split(':')
 
-            # Convert to correct type.
-            self.values[val_split[0]] = string2val(val_split[1])
+            # Store the value.
+            # Get full name and convert to correct type.
+            self.values[self.channels_short[val_split[0]]] = string2val(val_split[1])
 
         return self.values
 

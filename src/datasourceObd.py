@@ -17,9 +17,14 @@ class DatasourceObd(object):
                             level=logging.DEBUG)
         logging.info('Starting elm connection.')
 
-    def connect_obd(self):
+    # Connect to obd adapter.
+    # You can select a com port. By default, the com port is read automatically.
+    def connect_obd(self, com=None):
         logging.info('Trying to connect to elm.')
-        self.connection = obd.OBD()
+        if com is None:
+            self.connection = obd.OBD()
+        else:
+            self.connection = obd.OBD(com)
 
         # Check status.
         elm_status = self.connection.status()
@@ -29,14 +34,20 @@ class DatasourceObd(object):
             return 1
         elif elm_status == obd.OBDStatus.OBD_CONNECTED:
             logging.warning('Connected, but ignition off.')
+            self.connection = None
             return -1
         elif elm_status == obd.OBDStatus.ELM_CONNECTED:
             logging.warning('Connected to ELM, but not to car.')
+            self.connection = None
             return -2
         else:
             logging.warning('Connection failed.')
+            self.connection = None
             return -3
 
+    # Load channels from channel file.
+    # Intended to be used in standalone mode only.
+    # For use with auto-telemetry, use the inbuild method there.
     def get_channels(self, channel_cfg='../channels.json'):
         logging.info('Importing channel list.')
 
@@ -50,11 +61,18 @@ class DatasourceObd(object):
         # Store channels in object.
         self.channels = cfg['channels']
 
+    # Check if channels are available at the currently connected car.
+    def check_channel_availability(self):
+        # Check if channel config is read.
+        if not self.channels:
+            logging.warning("Read channel config first.")
+
         # Check channels if avail.
         for ch in self.channels:
-            self.channels[ch]['obd_active'] = self.connection.supports(obd.commands[self.channels[ch]['obd_name']])
-            if not self.channels[ch]['obd_active']:
-                logging.warning(f'Channel {ch} not available for this car.')
+            if not self.connection.supports(obd.commands[self.channels[ch]['obd_name']]):
+                if 'obd' in self.channels[ch]['src_prio']:
+                    logging.warning(f'Channel {ch} not available for this car.')
+                    self.channels[ch]['src_prio'].remove('obd')
 
     # Query values from the car.
     # Returns the values as dict.
@@ -89,7 +107,7 @@ class DatasourceObd(object):
 
 
 if __name__ == '__main__':
-    datasource_car = DatasourceCar()
+    datasource_car = DatasourceObd()
     datasource_car.connect_obd()
     datasource_car.get_channels()
 

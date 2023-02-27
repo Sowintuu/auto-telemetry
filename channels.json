@@ -10,8 +10,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "string",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "engine_load": {
    "active": true,
@@ -23,8 +23,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "coolant_temp": {
    "active": true,
@@ -36,8 +36,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_pressure": {
    "active": true,
@@ -49,8 +49,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "intake_pressure": {
    "active": true,
@@ -62,34 +62,34 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "rpm": {
    "active": true,
-   "short_name": "",
+   "short_name": "R",
    "obd_name": "RPM",
    "obd_conversion": "",
    "obd_active": true,
-   "r3e_name": "",
+   "r3e_name": "Utilities.RpsToRpm(_data.EngineRps)",
    "r3e_conversion": "",
-   "data_type": "",
+   "data_type": "float",
    "unit": "rpm",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd", "r3e"],
+   "refresh_rate": 4
   },
   "speed": {
    "active": true,
-   "short_name": "",
+   "short_name": "S",
    "obd_name": "SPEED",
    "obd_conversion": "",
    "obd_active": true,
-   "r3e_name": "",
+   "r3e_name": "Utilities.MpsToKph(_data.CarSpeed)",
    "r3e_conversion": "",
-   "data_type": "",
+   "data_type": "float",
    "unit": "kph",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd", "r3e"],
+   "refresh_rate": 4
   },
   "intake_temp": {
    "active": true,
@@ -101,8 +101,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "air_flow": {
    "active": true,
@@ -114,8 +114,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "grams_per_second",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "throttle_pos": {
    "active": true,
@@ -127,8 +127,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "second",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "run_time": {
    "active": true,
@@ -140,8 +140,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "second",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_pressure_vac": {
    "active": true,
@@ -153,8 +153,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_pressure_dir": {
    "active": true,
@@ -166,8 +166,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_level": {
    "active": true,
@@ -179,8 +179,9 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+
+   "refresh_rate": 4
   },
   "baro_pressure": {
    "active": true,
@@ -192,8 +193,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "catalyse_temp_b1s1": {
    "active": true,
@@ -205,8 +206,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "catalyse_temp_b2s1": {
    "active": true,
@@ -218,8 +219,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "catalyse_temp_b1s2": {
    "active": true,
@@ -231,8 +232,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "catalyse_temp_b2s2": {
    "active": true,
@@ -244,8 +245,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "throttle_pos_rel": {
    "active": true,
@@ -257,8 +258,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "amb_air_temp": {
    "active": true,
@@ -270,8 +271,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "throttle_pos_b": {
    "active": true,
@@ -283,8 +284,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "throttle_pos_c": {
    "active": true,
@@ -296,21 +297,21 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "accelerator_pos_d": {
    "active": true,
-   "short_name": "",
+   "short_name": "T",
    "obd_name": "ACCELERATOR_POS_D",
    "obd_conversion": "",
    "obd_active": true,
-   "r3e_name": "",
+   "r3e_name": "Throttle",
    "r3e_conversion": "",
-   "data_type": "",
+   "data_type": "float",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd", "r3e"],
+   "refresh_rate": 4
   },
   "accelerator_pos_e": {
    "active": true,
@@ -322,8 +323,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "accelerator_pos_f": {
    "active": true,
@@ -335,8 +336,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "throttle_actuator": {
    "active": true,
@@ -348,8 +349,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_type": {
    "active": true,
@@ -361,8 +362,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "string",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_pressure_abs": {
    "active": true,
@@ -374,8 +375,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "accelerator_pos_rel": {
    "active": true,
@@ -387,8 +388,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "oil_temp": {
    "active": true,
@@ -400,8 +401,8 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
   },
   "fuel_inject_timing": {
    "active": true,
@@ -413,8 +414,9 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "degree",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+
+   "refresh_rate": 4
   },
   "fuel_rate": {
    "active": true,
@@ -426,8 +428,126 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "liters_per_hour",
-   "src_pref_1": "elm",
-   "src_pref_2": null
+   "src_prio": ["obd"],
+   "refresh_rate": 4
+  },
+  "location_x": {
+   "active": true,
+   "short_name": "Lx",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "CarCgLocation.X",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "location_y": {
+   "active": true,
+   "short_name": "Ly",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "CarCgLocation.Y",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "location_z": {
+   "active": true,
+   "short_name": "Lz",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "CarCgLocation.Z",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "acceleration_x": {
+   "active": true,
+   "short_name": "Ax",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "LocalAcceleration.X",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "acceleration_y": {
+   "active": true,
+   "short_name": "Ay",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "LocalAcceleration.Y",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "acceleration_z": {
+   "active": true,
+   "short_name": "Az",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "LocalAcceleration.Z",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "gear": {
+   "active": true,
+   "short_name": "G",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "Gear",
+   "r3e_conversion": "",
+   "data_type": "int",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
+  },
+  "brake": {
+   "active": true,
+   "short_name": "B",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "",
+   "r3e_conversion": "",
+   "data_type": "",
+   "unit": "",
+   "src_prio": [],
+   "refresh_rate": 4
+  },
+  "steering_angle": {
+   "active": true,
+   "short_name": "St",
+   "obd_name": "",
+   "obd_conversion": "",
+   "obd_active": false,
+   "r3e_name": "SteerInputRaw",
+   "r3e_conversion": "",
+   "data_type": "float",
+   "unit": "",
+   "src_prio": ["r3e"],
+   "refresh_rate": 4
   }
+
  }
 }

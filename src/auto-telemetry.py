@@ -1,10 +1,14 @@
 import os
+import time
 import logging
 import json
-import MySQLdb
 from datetime import datetime
 
+# import MySQLdb
+
 from datasourceObd import DatasourceObd
+from datasourceGpio import DatasourceGpio
+from datasourceRbox import DatasourceRbox
 from r3e_receive import R3eReceive
 
 
@@ -15,8 +19,11 @@ class AutoTelemetry(object):
         # Values.
         self.values = {}
 
-        # Channel config.
+        # Config.
         self.channels = {}
+        self.query_frequency = 4
+        self.do_log = True
+        self.do_send = False
 
         # Datasources.
         self.datasources = {}
@@ -47,7 +54,7 @@ class AutoTelemetry(object):
             if not self.logfile_dir and os.name == 'nt':
                 self.logfile_dir = 'logs'
             else:
-                self.logfile_dir = '/home/pi/telemetry/'#
+                self.logfile_dir = '/home/pi/telemetry/'  #
 
         # Create directory, if not already exists.
         if os.path.isdir(self.logfile_dir):
@@ -56,36 +63,58 @@ class AutoTelemetry(object):
         # Set the logfile path.
         self.logfile_path = os.path.join(self.logfile_dir, datetime.now().strftime("%y%m%d_%H%M%S_tele.dat"))
 
-    def read_channel_config(self):
-        with open(r'..\channels.json') as json_file:
+    # Read all channels from a json file.
+    def read_channel_config(self, channel_file='../channels.json'):
+        with open(channel_file) as json_file:
             json_load = json.load(json_file)
             self.channels = json_load(json_load)
 
+        # TODO: Check for file integrity.
+        # No duplicate channels.
+        # No duplicate short names.
+
     # Add datasource and init receive object.
     def add_datasource(self, source_add):
+        # Check if a channel config is already loaded.
+        if not self.channels:
+            logging.warning('Load channel config first.')
+            return
+
         # Check if the source is already added.
         if 'obd' not in self.datasources:
             # Create the source object and add it.
             if source_add == 'obd':
                 self.datasources['obd'] = DatasourceObd()
+                self.datasources['obd'].connect_obd()
+                self.datasources['obd'].check_channel_availability()
+
             elif source_add == 'gpio':
                 self.datasources['gpio'] = DatasourceGpio()
+
             elif source_add == 'r_box':
                 self.datasources['r_box'] = DatasourceRbox()
+
             elif source_add == 'r3e':
                 self.datasources['r3e'] = R3eReceive()
                 self.datasources['r3e'].connect_udp()
+
             else:
                 # Show warning if datasource not known.
                 logging.warning(f'Datasource {source_add} unknown.')
+                return
+
+            # Add channel config to datasource.
+            if source_add != 'r3e':
+                self.datasources[source_add].channels = self.channels
+            else:
+                self.datasources[source_add].set_channels(self.channels)
 
             # Log for successful addition.
             logging.info(f'Datasource {source_add} added.')
-            
+
         else:
             # Show warning, if already added.
             logging.warning(f'Datasource {source_add} already added.')
-
 
     def connect_sql(self):
         # TODO: Adjust to new channel structure.
@@ -119,23 +148,34 @@ class AutoTelemetry(object):
                 logging.warning("Error. Rolling back.")
                 self.db.rollback()
 
-
-
-    # Get values from any type of datasource.
+    # Get values from the datasource with the highest priority.
     def get_values(self):
         # Check if datasource was set.
-        if self.datasource_obj is None:
+        if not self.datasources:
             logging.warning('Set datasource first before asking for values.')
             return
 
-        # Get values from whatever datasource is set.
-        self.values = self.datasource_obj.get_values()
+        # Get values at all datasources.
+        for src in self.datasources:
+            self.datasources[src].get_values()
 
+        # Get value for every channel.
+        for ch in self.channels:
+            # Loop over datasources in order, to get the value from the prioritized datasource.
+            for src in self.channels[ch]['src_prio']:
+                # Check if the prioritized datasource is added.
+                if src in self.datasources:
+                    # Get the value and continue with the next channel.
+                    self.values[ch] = self.datasources[src].values[ch]
+                    break
 
-    def log_and_send(self):
-        # TODO: Check rollback command. Until when and what will be rolled back?
-        # TODO: Check sql format for time and date.
-        # Log locally.
+    # Write locally to a file.
+    def write_to_file(self):
+        # Check if values for writing are present.
+        if not self.values:
+            logging.debug('No values for writing to data file.')
+            return
+
         # Set string for logging.
         log_string = ''
         for var in self.values:
@@ -144,10 +184,26 @@ class AutoTelemetry(object):
         log_string += '\n'
 
         # Write string to file.
-        with open(self.logfile_path, 'a') as logfile:
-            logfile.write(log_string)
+        # Check if file exists. If not, write the header and the first data.
+        if not os.path.isfile(self.logfile_path):
+            header_str = ''
+            for val in self.values:
+                header_str += f'{val},'
+            header_str.strip(',')
+            header_str += '\n'
+            with open(self.logfile_path, 'w') as logfile:
+                logfile.write(header_str)
+                logfile.write(log_string)
 
-        # Log to DB.
+        # Else, write only the data.
+        else:
+            with open(self.logfile_path, 'a') as logfile:
+                logfile.write(log_string)
+
+    # Send values to SQL database.
+    def send(self):
+        # TODO: Check rollback command. Until when and what will be rolled back?
+        # TODO: Check sql format for time and date.
         # Set up db write string.
         db_string = f'INSERT INTO {self.db_table_name} (time, '
 
@@ -166,6 +222,33 @@ class AutoTelemetry(object):
         # except:
         #     print("Error. Rolling back.")
         #     db.rollback()
+
+    def get_value_loop(self):
+        sleep_time_max = 1 / self.query_frequency
+
+        # Start loop.
+        while True:
+            # Start run timer.
+            run_time_start = time.time()
+
+            # Get values for each datasource.
+            for sc in self.datasources:
+                self.datasources[sc].get_values()
+
+            # Write values to file.
+            if self.do_log:
+                self.write_to_file()
+
+            # Send values to db.
+            if self.do_send:
+                self.send()
+
+            # Get runtime, sleeptime and sleep until next execution.
+            run_time = time.time() - run_time_start
+            sleep_time = sleep_time_max - run_time
+            if sleep_time < 0:
+                sleep_time = 0
+            time.sleep(sleep_time)
 
 
 if __name__ == '__main__':
