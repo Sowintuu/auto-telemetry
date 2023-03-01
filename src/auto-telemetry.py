@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import logging
 import json
@@ -47,6 +48,9 @@ class AutoTelemetry(object):
         logging.basicConfig(format='%(asctime)s %(message)s',
                             filename='auto.log',
                             level=logging.DEBUG)
+
+        # Output logging to console.
+        logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
     # Set logfile path from logfile dir and current time.
     # If logfile path is not set yet, set it too.
