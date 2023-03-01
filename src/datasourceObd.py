@@ -98,8 +98,11 @@ class DatasourceObd(object):
             if response.is_null():
                 self.values[ch] = None
             else:
-                # Get the value without unit.
-                val_mag = response.value.magnitude
+                # Get the value without unit or the string.
+                if isinstance(response.value, str):
+                    val_mag = response.value
+                else:
+                    val_mag = response.value.magnitude
 
                 # Apply conversion if any.
                 if self.channels[ch]['obd_conversion']:
