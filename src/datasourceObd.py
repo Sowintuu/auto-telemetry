@@ -75,10 +75,12 @@ class DatasourceObd(object):
 
         # Check channels if avail.
         for ch in self.channels:
-            if not self.connection.supports(obd.commands[self.channels[ch]['obd_name']]):
-                if 'obd' in self.channels[ch]['src_prio']:
-                    logging.warning(f'Channel {ch} not available for this car.')
-                    self.channels[ch]['src_prio'].remove('obd')
+            if self.channels[ch]['obd_name']:
+                if not self.connection.supports(obd.commands[self.channels[ch]['obd_name']]):
+                    if 'obd' in self.channels[ch]['src_prio']:
+                        logging.warning(f'Channel {ch} not available for this car.')
+                        self.channels[ch]['src_prio'].remove('obd')
+                        self.channels[ch]['obd_active'] = False
 
     # Query values from the car.
     # Returns the values as dict.

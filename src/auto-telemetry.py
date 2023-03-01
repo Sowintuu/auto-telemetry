@@ -93,6 +93,7 @@ class AutoTelemetry(object):
                 self.datasources['obd'] = DatasourceObd()
                 result = self.datasources['obd'].connect_obd()
                 if result == 1:
+                    self.datasources[source_add].channels = self.channels
                     self.datasources['obd'].check_channel_availability()
                 else:
                     self.datasources.pop('obd')
@@ -101,24 +102,21 @@ class AutoTelemetry(object):
 
             elif source_add == 'gpio':
                 self.datasources['gpio'] = DatasourceGpio()
+                self.datasources[source_add].channels = self.channels
 
             elif source_add == 'r_box':
                 self.datasources['r_box'] = DatasourceRbox()
+                self.datasources[source_add].channels = self.channels
 
             elif source_add == 'r3e':
                 self.datasources['r3e'] = R3eReceive()
                 self.datasources['r3e'].connect_udp()
+                self.datasources[source_add].set_channels(self.channels)
 
             else:
                 # Show warning if datasource not known.
                 logging.warning(f'Datasource {source_add} unknown.')
                 return
-
-            # Add channel config to datasource.
-            if source_add != 'r3e':
-                self.datasources[source_add].channels = self.channels
-            else:
-                self.datasources[source_add].set_channels(self.channels)
 
             # Log for successful addition.
             logging.info(f'Datasource {source_add} added.')
@@ -190,7 +188,7 @@ class AutoTelemetry(object):
         # Set string for logging.
         log_string = ''
         for var in self.values:
-            log_string += f'{var}:{self.values["var"]},'
+            log_string += f'{self.values[var]},'
         log_string.strip(',')
         log_string += '\n'
 
@@ -243,8 +241,9 @@ class AutoTelemetry(object):
             run_time_start = time.time()
 
             # Get values for each datasource.
-            for sc in self.datasources:
-                self.datasources[sc].get_values()
+            # for sc in self.datasources:
+            #     self.datasources[sc].get_values()
+            self.get_values()
 
             # Write values to file.
             if self.do_log:
