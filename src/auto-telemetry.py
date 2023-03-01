@@ -4,12 +4,13 @@ import logging
 import json
 from datetime import datetime
 
-# import MySQLdb
+import MySQLdb
 
 from datasourceObd import DatasourceObd
-from datasourceGpio import DatasourceGpio
 from datasourceRbox import DatasourceRbox
 from r3e_receive import R3eReceive
+if os.name == 'posix':
+    from datasourceGpio import DatasourceGpio
 
 
 class AutoTelemetry(object):
@@ -22,6 +23,7 @@ class AutoTelemetry(object):
         # Config.
         self.channels = {}
         self.query_frequency = 4
+        # TODO: Add do_log and do_send to config.
         self.do_log = True
         self.do_send = False
 
@@ -57,7 +59,7 @@ class AutoTelemetry(object):
                 self.logfile_dir = '/home/pi/telemetry/'  #
 
         # Create directory, if not already exists.
-        if os.path.isdir(self.logfile_dir):
+        if not os.path.isdir(self.logfile_dir):
             os.makedirs(self.logfile_dir)
 
         # Set the logfile path.
@@ -67,7 +69,7 @@ class AutoTelemetry(object):
     def read_channel_config(self, channel_file='../channels.json'):
         with open(channel_file) as json_file:
             json_load = json.load(json_file)
-            self.channels = json_load(json_load)
+            self.channels = json_load['channels']
 
         # TODO: Check for file integrity.
         # No duplicate channels.
@@ -81,12 +83,17 @@ class AutoTelemetry(object):
             return
 
         # Check if the source is already added.
-        if 'obd' not in self.datasources:
+        if source_add not in self.datasources:
             # Create the source object and add it.
             if source_add == 'obd':
                 self.datasources['obd'] = DatasourceObd()
-                self.datasources['obd'].connect_obd()
-                self.datasources['obd'].check_channel_availability()
+                result = self.datasources['obd'].connect_obd()
+                if result == 1:
+                    self.datasources['obd'].check_channel_availability()
+                else:
+                    self.datasources.pop('obd')
+                    return
+                logging.warning('Error connecting to ELM.')
 
             elif source_add == 'gpio':
                 self.datasources['gpio'] = DatasourceGpio()
@@ -223,7 +230,7 @@ class AutoTelemetry(object):
         #     print("Error. Rolling back.")
         #     db.rollback()
 
-    def get_value_loop(self):
+    def telemetry_loop(self):
         sleep_time_max = 1 / self.query_frequency
 
         # Start loop.
@@ -254,5 +261,10 @@ class AutoTelemetry(object):
 if __name__ == '__main__':
     tele = AutoTelemetry()
     tele.read_channel_config()
+
+    tele.add_datasource('obd')
+    # tele.add_datasource('r3e')
+
+    tele.telemetry_loop()
 
     breakpoint()

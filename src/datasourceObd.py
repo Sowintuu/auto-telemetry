@@ -2,6 +2,8 @@ import json
 import logging
 import obd
 
+import serial
+
 
 class DatasourceObd(object):
 
@@ -21,10 +23,14 @@ class DatasourceObd(object):
     # You can select a com port. By default, the com port is read automatically.
     def connect_obd(self, com=None):
         logging.info('Trying to connect to elm.')
-        if com is None:
-            self.connection = obd.OBD()
-        else:
-            self.connection = obd.OBD(com)
+        try:
+            if com is None:
+                self.connection = obd.OBD()
+            else:
+                self.connection = obd.OBD(com)
+        except serial.serialutil.SerialException:
+            logging.warning('Connection failed.')
+            return -3
 
         # Check status.
         elm_status = self.connection.status()
