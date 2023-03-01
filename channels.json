@@ -1,4 +1,16 @@
 {
+ "options": {
+  "query_frequency": 4,
+  "write_frequency": 4,
+  "send_frequency": 4,
+  "thinkspeak_channel_ids": [2049894],
+  "thingspeak_keys_write": ["2I1FRXHC9L811Z09"],
+  "thingspeak_keys_read": ["VRIFA739DZMCZCC3"],
+  "sql_address": "",
+  "do_log": true,
+  "do_send_thingspeak": true,
+  "do_send_sql": false
+ },
  "channels": {
   "fuel_status": {
    "active": true,
@@ -11,7 +23,9 @@
    "data_type": "",
    "unit": "string",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "engine_load": {
    "active": true,
@@ -24,7 +38,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "coolant_temp": {
    "active": true,
@@ -37,7 +53,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_pressure": {
    "active": true,
@@ -50,7 +68,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "intake_pressure": {
    "active": true,
@@ -63,7 +83,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "rpm": {
    "active": true,
@@ -76,7 +98,9 @@
    "data_type": "float",
    "unit": "rpm",
    "src_prio": ["obd", "r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "speed": {
    "active": true,
@@ -89,7 +113,9 @@
    "data_type": "float",
    "unit": "kph",
    "src_prio": ["obd", "r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": 0,
+   "thingspeak_field": 1
   },
   "intake_temp": {
    "active": true,
@@ -102,7 +128,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "air_flow": {
    "active": true,
@@ -115,7 +143,9 @@
    "data_type": "",
    "unit": "grams_per_second",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "throttle_pos": {
    "active": true,
@@ -128,7 +158,9 @@
    "data_type": "",
    "unit": "second",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "run_time": {
    "active": true,
@@ -141,7 +173,9 @@
    "data_type": "",
    "unit": "second",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_pressure_vac": {
    "active": true,
@@ -154,7 +188,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_pressure_dir": {
    "active": true,
@@ -167,7 +203,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_level": {
    "active": true,
@@ -180,8 +218,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "baro_pressure": {
    "active": true,
@@ -194,7 +233,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": 0,
+   "thingspeak_field": 5
   },
   "catalyse_temp_b1s1": {
    "active": true,
@@ -207,7 +248,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "catalyse_temp_b2s1": {
    "active": true,
@@ -220,7 +263,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "catalyse_temp_b1s2": {
    "active": true,
@@ -233,7 +278,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "catalyse_temp_b2s2": {
    "active": true,
@@ -246,7 +293,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "throttle_pos_rel": {
    "active": true,
@@ -259,7 +308,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "amb_air_temp": {
    "active": true,
@@ -272,7 +323,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": 0,
+   "thingspeak_field": 4
   },
   "throttle_pos_b": {
    "active": true,
@@ -285,7 +338,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "throttle_pos_c": {
    "active": true,
@@ -298,7 +353,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "accelerator_pos_d": {
    "active": true,
@@ -311,7 +368,9 @@
    "data_type": "float",
    "unit": "percent",
    "src_prio": ["obd", "r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": 0,
+   "thingspeak_field": 2
   },
   "accelerator_pos_e": {
    "active": true,
@@ -324,7 +383,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": 0,
+   "thingspeak_field": 3
   },
   "accelerator_pos_f": {
    "active": true,
@@ -337,7 +398,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "throttle_actuator": {
    "active": true,
@@ -350,7 +413,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_type": {
    "active": true,
@@ -363,7 +428,9 @@
    "data_type": "",
    "unit": "string",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_pressure_abs": {
    "active": true,
@@ -376,7 +443,9 @@
    "data_type": "",
    "unit": "kilopascal",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "accelerator_pos_rel": {
    "active": true,
@@ -389,7 +458,9 @@
    "data_type": "",
    "unit": "percent",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "oil_temp": {
    "active": true,
@@ -402,7 +473,9 @@
    "data_type": "",
    "unit": "celsius",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_inject_timing": {
    "active": true,
@@ -415,8 +488,9 @@
    "data_type": "",
    "unit": "degree",
    "src_prio": ["obd"],
-
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "fuel_rate": {
    "active": true,
@@ -429,7 +503,9 @@
    "data_type": "",
    "unit": "liters_per_hour",
    "src_prio": ["obd"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "location_x": {
    "active": true,
@@ -442,7 +518,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "location_y": {
    "active": true,
@@ -455,7 +533,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "location_z": {
    "active": true,
@@ -468,7 +548,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "acceleration_x": {
    "active": true,
@@ -481,7 +563,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "acceleration_y": {
    "active": true,
@@ -494,7 +578,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "acceleration_z": {
    "active": true,
@@ -507,7 +593,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "gear": {
    "active": true,
@@ -520,7 +608,9 @@
    "data_type": "int",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "brake": {
    "active": true,
@@ -533,7 +623,9 @@
    "data_type": "",
    "unit": "",
    "src_prio": [],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   },
   "steering_angle": {
    "active": true,
@@ -546,7 +638,9 @@
    "data_type": "float",
    "unit": "",
    "src_prio": ["r3e"],
-   "refresh_rate": 4
+   "refresh_rate": 4,
+   "thingspeak_channel": null,
+   "thingspeak_field": null
   }
 
  }

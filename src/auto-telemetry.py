@@ -6,10 +6,12 @@ import json
 from datetime import datetime
 
 import MySQLdb
+import thingspeak
 
 from datasourceObd import DatasourceObd
 from datasourceRbox import DatasourceRbox
 from r3e_receive import R3eReceive
+
 if os.name == 'posix':
     from datasourceGpio import DatasourceGpio
 
@@ -23,21 +25,21 @@ class AutoTelemetry(object):
 
         # Config.
         self.channels = {}
-        self.query_frequency = 4
-        # TODO: Add do_log and do_send to config.
-        self.do_log = True
-        self.do_send = False
+        self.options = {}
 
         # Datasources.
         self.datasources = {}
 
-        # Database.
+        # Database SQL.
         self.db = None
         self.db_curs = None
         self.db_address = 'localhost'
         self.db_password = 'Laendle_MS_sql'
         self.db_name = 'laendle_ms'
         self.db_table_name = ''
+
+        # Database thingspeak.
+        self.thingspeak_channels = []
 
         # Datalogging.
         self.logfile_path = ''
@@ -71,13 +73,18 @@ class AutoTelemetry(object):
 
     # Read all channels from a json file.
     def read_channel_config(self, channel_file='../channels.json'):
+        # Read the json content.
         with open(channel_file) as json_file:
             json_load = json.load(json_file)
-            self.channels = json_load['channels']
 
+        # Store the channels in the property.
+        self.channels = json_load['channels']
         # TODO: Check for file integrity.
         # No duplicate channels.
         # No duplicate short names.
+
+        # Store the other options.
+        self.options = json_load['options']
 
     # Add datasource and init receive object.
     def add_datasource(self, source_add):
@@ -186,7 +193,7 @@ class AutoTelemetry(object):
             return
 
         # Set string for logging.
-        log_string = ''
+        log_string = f'{datetime.now().strftime("%y%m%d_%H%M%S")}'
         for var in self.values:
             log_string += f'{self.values[var]},'
         log_string.strip(',')
@@ -195,7 +202,7 @@ class AutoTelemetry(object):
         # Write string to file.
         # Check if file exists. If not, write the header and the first data.
         if not os.path.isfile(self.logfile_path):
-            header_str = ''
+            header_str = 'time,'
             for val in self.values:
                 header_str += f'{val},'
             header_str.strip(',')
@@ -210,9 +217,14 @@ class AutoTelemetry(object):
                 logfile.write(log_string)
 
     # Send values to SQL database.
-    def send(self):
+    def send_sql(self):
         # TODO: Check rollback command. Until when and what will be rolled back?
         # TODO: Check sql format for time and date.
+        # Check if values for writing are present.
+        if not self.values:
+            logging.debug('No values to send to sql server.')
+            return
+
         # Set up db write string.
         db_string = f'INSERT INTO {self.db_table_name} (time, '
 
@@ -232,8 +244,39 @@ class AutoTelemetry(object):
         #     print("Error. Rolling back.")
         #     db.rollback()
 
+    def send_thingspeak(self):
+        # Check if values for writing are present.
+        if not self.values:
+            logging.debug('No values to send to thingspeak.')
+            return
+
+        # Setup dicts for channel update.
+        out_dicts = [{}] * len(self.thingspeak_channels)
+        for val in self.values:
+            # Check if channel and field are specified, otherwise skip.
+            if None in [self.channels[val]['thingspeak_channel'], self.channels[val]['thingspeak_field']]:
+                continue
+
+            # Get channel and field number.
+            channel_nr = self.channels[val]['thingspeak_channel']
+            field_nr = self.channels[val]['thingspeak_field']
+
+            # Add the value to the right dict.
+            out_dicts[channel_nr][f'field{val}'] = self.values[val]
+
+        # Update channels.
+        for ch_id, ch in enumerate(self.thingspeak_channels):
+            if out_dicts[ch_id]:
+                ch.update(out_dicts[ch_id])
+
     def telemetry_loop(self):
-        sleep_time_max = 1 / self.query_frequency
+        sleep_time_max = 1 / self.options['query_frequency']
+
+        # Setup thingspeak channel object.
+        if self.options['do_send_thingspeak']:
+            for ch_id, ch in enumerate(self.options['thinkspeak_channel_ids']):
+                self.thingspeak_channels.append(thingspeak.Channel(id=self.options['thinkspeak_channel_ids'][ch_id],
+                                                                   api_key=self.options['thingspeak_keys_write'][ch_id]))
 
         # Start loop.
         while True:
@@ -241,17 +284,18 @@ class AutoTelemetry(object):
             run_time_start = time.time()
 
             # Get values for each datasource.
-            # for sc in self.datasources:
-            #     self.datasources[sc].get_values()
             self.get_values()
 
             # Write values to file.
-            if self.do_log:
+            if self.options['do_log']:
                 self.write_to_file()
 
             # Send values to db.
-            if self.do_send:
-                self.send()
+            if self.options['do_send_sql']:
+                self.send_sql()
+
+            if self.options['do_send_thingspeak']:
+                self.send_thingspeak()
 
             # Get runtime, sleeptime and sleep until next execution.
             run_time = time.time() - run_time_start
