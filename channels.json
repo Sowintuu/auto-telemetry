@@ -112,7 +112,7 @@
    "r3e_conversion": "",
    "data_type": "float",
    "unit": "kph",
-   "src_prio": ["obd", "r3e"],
+   "src_prio": ["obd", "r3e", "rnd"],
    "refresh_rate": 4,
    "thingspeak_channel": 0,
    "thingspeak_field": 1
@@ -232,7 +232,7 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "kilopascal",
-   "src_prio": ["obd"],
+   "src_prio": ["obd","rnd"],
    "refresh_rate": 4,
    "thingspeak_channel": 0,
    "thingspeak_field": 5
@@ -322,7 +322,7 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "celsius",
-   "src_prio": ["obd"],
+   "src_prio": ["obd","rnd"],
    "refresh_rate": 4,
    "thingspeak_channel": 0,
    "thingspeak_field": 4
@@ -367,7 +367,7 @@
    "r3e_conversion": "",
    "data_type": "float",
    "unit": "percent",
-   "src_prio": ["obd", "r3e"],
+   "src_prio": ["obd", "r3e","rnd"],
    "refresh_rate": 4,
    "thingspeak_channel": 0,
    "thingspeak_field": 2
@@ -382,7 +382,7 @@
    "r3e_conversion": "",
    "data_type": "",
    "unit": "percent",
-   "src_prio": ["obd"],
+   "src_prio": ["obd","rnd"],
    "refresh_rate": 4,
    "thingspeak_channel": 0,
    "thingspeak_field": 3

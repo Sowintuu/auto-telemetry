@@ -101,7 +101,7 @@ class DatasourceObd(object):
                 self.values[ch] = None
             else:
                 # Get the value without unit or the string.
-                if isinstance(response.value, str):
+                if isinstance(response.value, str) or isinstance(response.value, tuple):
                     val_mag = response.value
                 else:
                     val_mag = response.value.magnitude

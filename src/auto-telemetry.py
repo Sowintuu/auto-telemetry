@@ -11,6 +11,7 @@ import thingspeak
 from datasourceObd import DatasourceObd
 from datasourceRbox import DatasourceRbox
 from r3e_receive import R3eReceive
+from datasourceRnd import DatasourceRnd
 
 if os.name == 'posix':
     from datasourceGpio import DatasourceGpio
@@ -40,6 +41,8 @@ class AutoTelemetry(object):
 
         # Database thingspeak.
         self.thingspeak_channels = []
+        self.thingspeak_last_send = time.time()-60
+        self.thingspeak_interval = 15
 
         # Datalogging.
         self.logfile_path = ''
@@ -120,6 +123,11 @@ class AutoTelemetry(object):
                 self.datasources['r3e'].connect_udp()
                 self.datasources[source_add].set_channels(self.channels)
 
+            elif source_add == 'rnd':
+                self.datasources['rnd'] = DatasourceRnd()
+                self.datasources[source_add].channels = self.channels
+                self.datasources['rnd'].init_random()
+
             else:
                 # Show warning if datasource not known.
                 logging.warning(f'Datasource {source_add} unknown.')
@@ -193,7 +201,7 @@ class AutoTelemetry(object):
             return
 
         # Set string for logging.
-        log_string = f'{datetime.now().strftime("%y%m%d_%H%M%S")}'
+        log_string = f'{datetime.now().strftime("%y%m%d_%H%M%S")},'
         for var in self.values:
             log_string += f'{self.values[var]},'
         log_string.strip(',')
@@ -245,6 +253,11 @@ class AutoTelemetry(object):
         #     db.rollback()
 
     def send_thingspeak(self):
+        # Check sending interval.
+        if time.time() - self.thingspeak_last_send < self.thingspeak_interval:
+            logging.debug('Thingspeak attempt below interval.')
+            return
+
         # Check if values for writing are present.
         if not self.values:
             logging.debug('No values to send to thingspeak.')
@@ -262,12 +275,14 @@ class AutoTelemetry(object):
             field_nr = self.channels[val]['thingspeak_field']
 
             # Add the value to the right dict.
-            out_dicts[channel_nr][f'field{val}'] = self.values[val]
+            out_dicts[channel_nr][f'field{field_nr}'] = self.values[val]
 
         # Update channels.
         for ch_id, ch in enumerate(self.thingspeak_channels):
             if out_dicts[ch_id]:
-                ch.update(out_dicts[ch_id])
+                result = ch.update(out_dicts[ch_id])
+                if result != "0":
+                    self.thingspeak_last_send = time.time()
 
     def telemetry_loop(self):
         sleep_time_max = 1 / self.options['query_frequency']
@@ -311,6 +326,7 @@ if __name__ == '__main__':
 
     tele.add_datasource('obd')
     # tele.add_datasource('r3e')
+    # tele.add_datasource('rnd')
 
     tele.telemetry_loop()
 
